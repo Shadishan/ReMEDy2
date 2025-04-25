@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReMEDy2 Stroke Trial Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f7f9fc;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            height: 80px;
+            margin: 10px;
+        }
+        .logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .center-logo {
+            flex-grow: 1;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+            color: #003366;
+        }
+        .section {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+        .buttons {
+            margin: 20px 0;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+        @media print {
+            .buttons, #result {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logos">
+        <img class="logo" src="left_logo.png">
+        <div class="center-logo">
+            <img class="logo" src="center_logo.png">
+        </div>
+        <img class="logo" src="right_logo.png">
+    </div>
+    <h1>ReMEDy2 Stroke Trial Checklist</h1>
+
+    <div class="section">
+        <h2>Inclusion Criteria</h2><label><input type="checkbox" class="inclusion"> Participant is between 18 and 90 years of age inclusive.</label><label><input type="checkbox" class="inclusion"> Participant weight is 40 kg to 166 kg inclusive.</label><label><input type="checkbox" class="inclusion"> Participant is to be randomized and treatment initiated within 24 hours of last known normal/AIS stroke onset.</label><label><input type="checkbox" class="inclusion"> Participant's NIHSS score is between 5 and 15 at approximately the time of randomization, including participants who initially present with an NIHSS score below 5 but clinically worsen and subsequently meet NIHSS criteria. Must meet all other inclusion/exclusion criteria, including repeat imaging to rule out hemorrhagic transformation.</label><label><input type="checkbox" class="inclusion"> Participant had a pre-morbid modified Rankin Scale (mRS) score of 0 to 1 before AIS, confirmed by participant or representative.</label><label><input type="checkbox" class="inclusion"> If participant received fibrinolytic treatment for AIS within 4.5 hours of stroke onset: at least 6 hours passed post-treatment, persistent deficit, NIHSS score improvement less than 4 points or worsened, and meets all other criteria including repeat imaging.</label><label><input type="checkbox" class="inclusion"> Participant or legally authorized representative able to provide informed consent.</label><label><input type="checkbox" class="inclusion"> Participant willing and able to comply with the study protocol, in investigator's judgment.</label></div>
+
+    <div class="section">
+        <h2>Exclusion Criteria</h2><label><input type="checkbox" class="exclusion"> Imaging-confirmed hemorrhagic stroke at screening or repeat imaging.</label><label><input type="checkbox" class="exclusion"> Imaging shows symptomatic large vessel occlusion at intracranial carotid artery (I/T/L), M1 segment MCA, vertebral or basilar artery.</label><label><input type="checkbox" class="exclusion"> Large core infarction (ASPECTS score 0–5).</label><label><input type="checkbox" class="exclusion"> Participant has or will receive mechanical thrombectomy (MT) for current AIS.</label><label><input type="checkbox" class="exclusion"> Suspected or confirmed extracranial arterial dissection.</label><label><input type="checkbox" class="exclusion"> Imaging/symptoms consistent with brainstem or cerebellar stroke (posterior cerebral artery strokes without brainstem/cerebellar involvement allowed).</label><label><input type="checkbox" class="exclusion"> Recorded SBP <100 mmHg or MAP <65 mmHg after symptom onset and before randomization.</label><label><input type="checkbox" class="exclusion"> Currently prescribed an ACE inhibitor and unable/unwilling to convert to another antihypertensive through Day 29 ±1 day.</label><label><input type="checkbox" class="exclusion"> Last ACE inhibitor dose taken within 24 hours before starting IV study drug infusion.</label><label><input type="checkbox" class="exclusion"> History of clinically significant allergic reactions (angioedema/anaphylaxis) requiring hospitalization.</label><label><input type="checkbox" class="exclusion"> Hereditary angioedema (HAE) or using HAE-related medications.</label><label><input type="checkbox" class="exclusion"> (Blank item - formatting issue in source document.)</label><label><input type="checkbox" class="exclusion"> Active infection requiring parenteral treatment or hospitalization (uncomplicated infections with oral antibiotics permitted).</label><label><input type="checkbox" class="exclusion"> Known alpha-1 antitrypsin deficiency.</label><label><input type="checkbox" class="exclusion"> Participant pregnant or nursing (can include if nursing stopped at investigator discretion).</label><label><input type="checkbox" class="exclusion"> Child-bearing potential without contraception agreement or negative serum pregnancy test.</label><label><input type="checkbox" class="exclusion"> Participation in another investigational study within 30 days prior.</label><label><input type="checkbox" class="exclusion"> Insufficient venous access for infusion or blood sampling.</label><label><input type="checkbox" class="exclusion"> Unable/unwilling to comply with protocol requirements, assessments, or follow-ups.</label><label><input type="checkbox" class="exclusion"> Other medical condition unsafe or interfering with study results per investigator.</label></div>
+
+    <div class="buttons">
+        <button onclick="verifyEligibility()">Check Eligibility</button>
+        <button onclick="window.print()">Download Checklist as PDF</button>
+    </div>
+
+    <div id="result"></div>
+
+    <script>
+        function verifyEligibility() {
+            let inclusions = document.querySelectorAll('.inclusion');
+            let exclusions = document.querySelectorAll('.exclusion');
+            let allIncluded = Array.from(inclusions).every(cb => cb.checked);
+            let noneExcluded = Array.from(exclusions).every(cb => !cb.checked);
+            let result = document.getElementById('result');
+
+            if (allIncluded && noneExcluded) {
+                result.style.color = 'green';
+                result.innerText = '✅ Eligible for the trial';
+            } else {
+                result.style.color = 'red';
+                result.innerText = '❌ Not eligible for the trial';
+            }
+        }
+    </script>
+</body>
+</html>

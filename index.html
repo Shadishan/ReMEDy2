@@ -5,6 +5,25 @@
   <title>ReMEDy2 Stroke Trial Eligibility Checklist</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 20px; background: #f7f9fc; color: #333; }
+async function downloadPDF() {
+  const { jsPDF } = window.jspdf;
+  if (!jsPDF) {
+    alert('jsPDF library failed to load.');
+    return;
+  }
+  const doc = new jsPDF();
+  const header = "Confidential – Study Screening Tool";
+  const footer = "Confidential – Generated for Internal Use Only";
+  const resultsText = document.getElementById("results").innerText || "";
+  const timestampText = document.getElementById("timestamp").innerText || "";
+  doc.text(header, 105, 10, { align: "center" });
+  const bodyLines = doc.splitTextToSize(resultsText + "\n\n" + timestampText, 180);
+  doc.text(bodyLines, 10, 20);
+  doc.text(footer, 105, 280, { align: "center" });
+  const now = new Date();
+  const filename = `ReMEDy2_eligibility_${now.toISOString().slice(0,10)}_${now.toTimeString().slice(0,5).replace(":","")}.pdf`;
+  doc.save(filename);
+}
     h1, h2 { color: #003366; }
     .logo-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
     .logo-bar img { height: 70px; }
@@ -69,11 +88,13 @@
   </div>
   <button type="button" onclick="checkEligibility()">Check Eligibility</button>
   <button type="button" onclick="window.print()">Print Results</button>
+  <button type="button" onclick="downloadPDF()">Download as PDF</button>
 </form>
 <div id="results"></div>
 <div id="timestamp"></div>
 <footer>Confidential – Generated for Internal Use Only</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 function checkEligibility() {
   const form = document.forms["eligibilityForm"];

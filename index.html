@@ -11,14 +11,57 @@
     .logo-bar img { height: 70px; }
     .section { margin-bottom: 25px; }
     .radio-group { margin-bottom: 10px; }
-    .radio-group label { display: block; }
-    .radio-group span.choice { margin-left: 5px; margin-right: 15px; }
-    button { padding: 10px 15px; margin: 5px; background-color: #003366; color: white; border: none; border-radius: 5px; cursor: pointer; }
+
+    /* Question label */
+    .radio-group label.question { font-weight: bold; display: block; margin-bottom: 5px; }
+
+    /* Pill-style Yes/No choices */
+    .choice {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 0.8rem;
+      margin-right: 0.35rem;
+      font-size: 0.8rem;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.1s, box-shadow 0.1s;
+      border: 2px solid transparent;
+      position: relative;
+    }
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .choice:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+    .choice:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+    .choice.yes { background: #e6ffed; border-color: #28a745; color: #155724; }
+    .choice.no  { background: #ffe6e6; border-color: #dc3545; color: #721c24; }
+    .choice input:checked + span { outline: 3px solid rgba(0,0,0,0.15); }
+
+    /* Main action buttons */
+    button {
+      padding: 0.75rem 1.5rem;
+      margin: 5px;
+      background-color: #003366;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.1s ease, background-color 0.2s ease;
+    }
+    button:hover { background-color: #002244; transform: translateY(-1px); }
+    button:active { transform: translateY(0); }
+
+    /* Results styling */
     #results { margin-top: 30px; padding: 15px; border: 1px solid #ccc; background: #fff; }
     #timestamp { margin-top: 10px; font-size: 0.9em; color: #555; }
     .met { color: green; font-weight: bold; }
     .not-met { color: red; font-weight: bold; }
     #backButton { display: none; margin-top: 20px; }
+
     @media print {
       body { background: white; color: black; font-size: 12px; margin: 20mm; }
       .logo-bar, button, #backButton { display: none !important; }
@@ -28,234 +71,168 @@
   </style>
 </head>
 <body>
-<header>Confidential – Study Screening Tool</header>
-<div class="logo-bar">
-  <img src="images/left_logo.png" alt="Logo 1">
-  <img src="images/center_logo.png" alt="Logo 2">
-  <img src="images/right_logo.png" alt="Logo 3">
-</div>
-
-<h1>ReMEDy2 Stroke Trial – Eligibility Checklist</h1>
-
-<form id="eligibilityForm">
-  <div class="section">
-    <h2>Inclusion Criteria</h2>
-    <div class="radio-group">
-      <label>1. Participant is between 18 and 90 years of age inclusive.
-        <span class="choice"><input type="radio" name="inclusion1" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion1" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>2. Participant weight is 40&nbsp;kg to 166&nbsp;kg inclusive.
-        <span class="choice"><input type="radio" name="inclusion2" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion2" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>3. Participant is to be randomized and treatment initiated within 24&nbsp;hours of last known normal/AIS stroke onset.
-        <span class="choice"><input type="radio" name="inclusion3" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion3" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>4. NIHSS 5–15 at randomization (including initial &lt;5 who worsen and meet criteria &amp; repeat imaging).
-        <span class="choice"><input type="radio" name="inclusion4" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion4" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>5. Pre‑morbid mRS 0–1.
-        <span class="choice"><input type="radio" name="inclusion5" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion5" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>6. If fibrinolytic given within 4.5&nbsp;h: ≥6&nbsp;h post‑dose, persistent deficit (NIHSS improvement &lt;4 or worsened) and repeat imaging criteria met.
-        <span class="choice"><input type="radio" name="inclusion6" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion6" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>7. Informed consent obtained from participant or LAR.
-        <span class="choice"><input type="radio" name="inclusion7" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion7" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>8. Participant able and willing to comply with study protocol (per investigator).
-        <span class="choice"><input type="radio" name="inclusion8" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="inclusion8" value="no"> No</span>
-      </label>
-    </div>
+  <header>Confidential – Study Screening Tool</header>
+  <div class="logo-bar">
+    <img src="images/left_logo.png" alt="Logo 1">
+    <img src="images/center_logo.png" alt="Logo 2">
+    <img src="images/right_logo.png" alt="Logo 3">
   </div>
 
-  <div class="section">
-    <h2>Exclusion Criteria</h2>
-    <!-- Loop of 19 neatly‑spaced criteria -->
-    <div class="radio-group">
-      <label>1. Imaging‑confirmed hemorrhagic stroke at screening or repeat imaging.
-        <span class="choice"><input type="radio" name="exclusion1" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion1" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>2. Imaging shows symptomatic large vessel occlusion at intracranial carotid artery (I/T/L), M1 segment MCA, vertebral or basilar artery.
-        <span class="choice"><input type="radio" name="exclusion2" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion2" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>3. Large core infarction (ASPECTS score 0–5).
-        <span class="choice"><input type="radio" name="exclusion3" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion3" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>4. Participant has or will receive mechanical thrombectomy (MT) for current AIS.
-        <span class="choice"><input type="radio" name="exclusion4" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion4" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>5. Suspected or confirmed extracranial arterial dissection.
-        <span class="choice"><input type="radio" name="exclusion5" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion5" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>6. Imaging or symptoms consistent with brainstem or cerebellar stroke (posterior cerebral artery strokes without brainstem/cerebellar involvement allowed).
-        <span class="choice"><input type="radio" name="exclusion6" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion6" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>7. Recorded SBP <100 mmHg or MAP <65 mmHg after symptom onset and before randomization.
-        <span class="choice"><input type="radio" name="exclusion7" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion7" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>8. Currently prescribed an ACE inhibitor and unable or unwilling to convert to another antihypertensive through Day 29 ±1 day.
-        <span class="choice"><input type="radio" name="exclusion8" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion8" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>9. Last ACE‑inhibitor dose taken within 24 hours before starting IV study‑drug infusion.
-        <span class="choice"><input type="radio" name="exclusion9" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion9" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>10. History of clinically significant allergic reactions (angioedema/anaphylaxis) requiring hospitalization.
-        <span class="choice"><input type="radio" name="exclusion10" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion10" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>11. Hereditary angioedema (HAE) or using HAE‑related medications.
-        <span class="choice"><input type="radio" name="exclusion11" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion11" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>12. Active infection requiring parenteral treatment or hospitalization (uncomplicated infections treated with oral antibiotics permitted).
-        <span class="choice"><input type="radio" name="exclusion12" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion12" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>13. Known alpha‑1 antitrypsin deficiency.
-        <span class="choice"><input type="radio" name="exclusion13" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion13" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>14. Participant pregnant or nursing (may enroll if nursing stopped at investigator discretion).
-        <span class="choice"><input type="radio" name="exclusion14" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion14" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>15. Woman of child‑bearing potential without contraception agreement or negative serum pregnancy test.
-        <span class="choice"><input type="radio" name="exclusion15" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion15" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>16. Participation in another investigational study within 30 days prior to randomization.
-        <span class="choice"><input type="radio" name="exclusion16" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion16" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>17. Insufficient venous access for infusion or blood sampling.
-        <span class="choice"><input type="radio" name="exclusion17" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion17" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>18. Unable or unwilling to comply with protocol requirements, assessments, or follow‑ups.
-        <span class="choice"><input type="radio" name="exclusion18" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion18" value="no"> No</span>
-      </label>
-    </div>
-    <div class="radio-group">
-      <label>19. Other medical condition unsafe or interfering with study results per investigator judgment.
-        <span class="choice"><input type="radio" name="exclusion19" value="yes"> Yes</span>
-        <span class="choice"><input type="radio" name="exclusion19" value="no"> No</span>
-      </label>
-    </div>
-  </div>
+  <h1>ReMEDy2 Stroke Trial – Eligibility Checklist</h1>
 
-  <button type="button" onclick="checkEligibility()">Check Eligibility</button>
-  <button type="button" onclick="printResults()">Print Results</button>
-  <button type="button" onclick="downloadPDF()">Download as PDF</button>
-</form>
+  <form id="eligibilityForm" name="eligibilityForm">
+    <div class="section">
+      <h2>Inclusion Criteria</h2>
 
-<div id="results"></div>
-<div id="timestamp"></div>
-<button id="backButton" onclick="location.reload()">Back to Form</button>
+      <div class="radio-group">
+        <label class="question">1. Participant is between 18 and 90 years of age inclusive.</label>
+        <label class="choice yes"><input type="radio" name="inclusion1" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion1" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">2. Participant weight is 40 kg to 166 kg inclusive.</label>
+        <label class="choice yes"><input type="radio" name="inclusion2" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion2" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">3. Participant is to be randomized and treatment initiated within 24 h of last-known-normal/AIS stroke onset.</label>
+        <label class="choice yes"><input type="radio" name="inclusion3" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion3" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">4. NIHSS 5–15 at randomization (including initial &lt; 5 who worsen and meet criteria & repeat imaging).</label>
+        <label class="choice yes"><input type="radio" name="inclusion4" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion4" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">5. Pre-morbid mRS 0–1.</label>
+        <label class="choice yes"><input type="radio" name="inclusion5" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion5" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">6. If fibrinolytic given within 4.5 h: ≥6 h post-dose, persistent deficit (NIHSS improvement &lt; 4) and repeat imaging criteria met.</label>
+        <label class="choice yes"><input type="radio" name="inclusion6" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion6" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">7. Informed consent obtained from participant or LAR.</label>
+        <label class="choice yes"><input type="radio" name="inclusion7" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion7" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">8. Participant able and willing to comply with study protocol (per investigator).</label>
+        <label class="choice yes"><input type="radio" name="inclusion8" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="inclusion8" value="no"><span>No</span></label>
+      </div>
+    </div>
 
-<footer>Confidential – Generated for Internal Use Only</footer>
+    <div class="section">
+      <h2>Exclusion Criteria</h2>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script>
-function checkEligibility() {
-  const form = document.forms['eligibilityForm'];
-  let inclusionMet = true;
-  let exclusionViolated = false;
-  let out = '<h2>Eligibility Result</h2><ul>';
-  for (let i = 1; i <= 8; i++) {
-    const v = form[`inclusion${i}`]?.value;
-    out += `<li>Inclusion ${i}: ${v === 'yes' ? '<span class="met">Met</span>' : '<span class="not-met">Not Met</span>'}</li>`;
-    if (v !== 'yes') inclusionMet = false;
-  }
-  for (let i = 1; i <= 19; i++) {
-    const v = form[`exclusion${i}`]?.value;
-    out += `<li>Exclusion ${i}: ${v === 'no' ? '<span class="met">Not Present</span>' : '<span class="not-met">Present</span>'}</li>`;
-    if (v === 'yes') exclusionViolated = true;
-  }
-  out += '</ul>';
-  out += inclusionMet && !exclusionViolated ? '<h3 class="met">✅ Eligible for Study</h3>'
-                                             : '<h3 class="not-met">❌ Not Eligible for Study</h3>';
-  document.getElementById('results').innerHTML = out;
-  document.getElementById('timestamp').innerText = 'Results generated on: ' + new Date().toLocaleString();
-}
-function printResults() { window.print(); }
-function downloadPDF() {
-  const { jsPDF } = window.jspdf;
-  if (!jsPDF) { alert('jsPDF failed to load.'); return; }
-  const doc = new jsPDF();
-  doc.text('Confidential – Study Screening Tool', 105, 10, { align: 'center' });
-  const body = document.getElementById('results').innerText + '\n\n' +
-               document.getElementById('timestamp').innerText;
-  doc.text(doc.splitTextToSize(body, 180), 10, 20);
-  doc.text('Confidential – Generated for Internal Use Only', 105, 280, { align: 'center' });
-  const now = new Date();
-  doc.save(`ReMEDy2_eligibility_${now.toISOString().slice(0,10)}.pdf`);
-}
-</script>
+      <div class="radio-group">
+        <label class="question">1. Imaging-confirmed hemorrhagic stroke at screening or repeat imaging.</label>
+        <label class="choice yes"><input type="radio" name="exclusion1" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion1" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">2. Imaging shows symptomatic large vessel occlusion at intracranial carotid (I/T/L), M1 MCA, vertebral or basilar artery.</label>
+        <label class="choice yes"><input type="radio" name="exclusion2" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion2" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">3. Large core infarction (ASPECTS 0–5).</label>
+        <label class="choice yes"><input type="radio" name="exclusion3" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion3" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">4. Participant has or will receive mechanical thrombectomy (MT) for current AIS.</label>
+        <label class="choice yes"><input type="radio" name="exclusion4" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion4" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">5. Suspected or confirmed extracranial arterial dissection.</label>
+        <label class="choice yes"><input type="radio" name="exclusion5" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion5" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">6. Ischemic event in brainstem or cerebellum (unless PCA without brainstem involvement).</label>
+        <label class="choice yes"><input type="radio" name="exclusion6" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion6" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">7. Recorded SBP < 100 mmHg or MAP < 65 mmHg post-onset & pre-randomization.</label>
+        <label class="choice yes"><input type="radio" name="exclusion7" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion7" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">8. On ACE-inhibitor at screening and unwilling to convert to another agent through Day 29 ± 1 day.</label>
+        <label class="choice yes"><input type="radio" name="exclusion8" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion8" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">9. Last ACE-inhibitor dose < 24 h prior to study-drug infusion.</label>
+        <label class="choice yes"><input type="radio" name="exclusion9" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion9" value="no"><span>No</span></label>
+      </div>
+      <div class="radio-group">
+        <label class="question">10. History of severe allergic reactions (angioedema/anaphylaxis).</label>
+        <label class="choice yes"><input type="radio" name="exclusion10" value="yes"><span>Yes</span></label>
+        <label class="choice no"><input type="radio" name="exclusion10" value="no"><span>No</span></label>
+      </div>
+      <!-- Continue any remaining exclusion items here... -->
+
+    </div>
+
+    <!-- Action Buttons -->
+    <button type="button" onclick="checkEligibility()">Check Eligibility</button>
+    <button type="button" onclick="printResults()">Print Results</button>
+    <button type="button" onclick="downloadPDF()">Download as PDF</button>
+  </form>
+
+  <div id="results"></div>
+  <div id="timestamp"></div>
+  <button id="backButton" onclick="restoreForm()">Back to Form</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    function checkEligibility() {
+      const form = document.forms["eligibilityForm"];
+      let inclusionMet = true, exclusionViolated = false;
+      let html = '<h2>Eligibility Result</h2><ul>';
+
+      for (let i=1;i<=8;i++){
+        const v = form['inclusion'+i].value;
+        html += `<li>Inclusion ${i}: ${v==='yes'?'<span class="met">Met</span>':'<span class="not-met">Not Met</span>'}`;
+        if(v!=='yes') inclusionMet=false;
+      }
+      for (let i=1;i<=10;i++){
+        const v = form['exclusion'+i].value;
+        html += `<li>Exclusion ${i}: ${v==='no'?'<span class="met">Not Present</span>':'<span class="not-met">Present</span>'}`;
+        if(v==='yes') exclusionViolated=true;
+      }
+      html += '</ul>';
+      html += `<h3>${(inclusionMet&&!exclusionViolated)?'<span class="met">Eligible for Study</span>':'<span class="not-met">Not Eligible for Study</span>'}</h3>`;
+      document.getElementById("results").innerHTML=html;
+      document.getElementById("timestamp").innerText='Results generated on: '+new Date().toLocaleString();
+      document.getElementById("backButton").style.display='block';
+    }
+
+    function printResults(){ window.print(); }
+
+    async function downloadPDF(){
+      const r=document.getElementById('results');
+      const ow=r.style.width; r.style.width='800px';
+      const canvas=await html2canvas(r,{scale:3}); r.style.width=ow;
+      const img=canvas.toDataURL('image/png'),{jsPDF}=window.jspdf;
+      const doc=new jsPDF({unit:'pt',format:'letter'});
+      const pw=doc.internal.pageSize.getWidth(), ph=doc.internal.pageSize.getHeight();
+      const p=doc.getImageProperties(img), ih=(p.height*pw)/p.width;
+      doc.addImage(img,'PNG',0,(ph-ih)/2,pw,ih);
+      doc.save(`eligibility_${new Date().toISOString().slice(0,10)}.pdf`);
+    }
+
+    function restoreForm(){ location.reload(); }
+  </script>
 </body>
 </html>
